@@ -1,0 +1,17 @@
+version: '3'
+
+services:      
+  db2:
+    image: ibmcom/db2:11.5.5.1
+    env_file:
+      - .ibm_env_list
+    volumes:
+      - ./db2_database_data_volume:/database/data
+    ports:
+      - 50000:50000
+    privileged: true
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2048M
