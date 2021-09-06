@@ -357,7 +357,7 @@ Każdą z tych cech rozbito na mniejsze podpunkty i opisano ich znaczenie. Pierw
 
 Dziś przyjęło się stosować mniej precyzyjną definicję, gdzie obiektową bazą danych określa się dowolny zbiór informacji trwale przechowywanych w postaci obiektów. Powstało wiele eksperymentalnych prototypów i komercyjnych baz zorientowanych obiektowo ale żadne nie przyjęły się do powszechnego użytku. Przykłady współcześnie wykorzystywanych systemów tego typu to ObjectDB dostępny w Javie, Realm dostępny na systemy mobilne i stworzony przez twórców MongoDB, czy GemStone Object Server stworzony przez GemStone Systems.
 
-Jednym z głównych celów stosowania obiektowej bazy danych, jest trwałe zapisywanie (ang. \textit{persistence}) obiektów obsługiwanych w aplikacjach, dokładnie w~takiej formie w jakiej są przechowywane w pamięci programu. W obiektowych językach programowania instancje obiektów są ulotne i znikają wraz z końcem działania programu - obiektowa baza danych może wydłużyć czas istnienia takich obiektów, tak by można je było odzyskać po zamknięciu i ponownym uruchomieniu aplikacji. By umożliwić takie powiązanie, obiektowe bazy danych muszą zapewnić mechanizmy odwzorowania pomiędzy obiektami przechowywanymi w pamięci ulotnej, a obiektami bazodanowymi. Prowadzi to do silnego związania logiki działania bazy ze wspieranymi językami programowania.
+Jednym z głównych celów stosowania obiektowej bazy danych, jest trwałe zapisywanie (ang. \textit{persistence}) obiektów obsługiwanych w aplikacjach, dokładnie w~takiej formie w jakiej są przechowywane w pamięci programu. W obiektowych językach programowania instancje obiektów są ulotne i znikają wraz z końcem działania programu - obiektowa baza danych może wydłużyć czas istnienia takich obiektów, tak by można je było odzyskać po zamknięciu i ponownym uruchomieniu aplikacji \cite{bib:comparison-analysis-of-object-and-or-databases}. By umożliwić takie powiązanie, obiektowe bazy danych muszą zapewnić mechanizmy odwzorowania pomiędzy obiektami przechowywanymi w pamięci ulotnej, a obiektami bazodanowymi. Prowadzi to do silnego związania logiki działania bazy ze wspieranymi językami programowania.
 
 Dużym wyzwaniem w bazach obiektowych jest implementacja relacji między obiektami. Standardowym rozwiązaniem jest przydzielanie obiektom identyfikatorów OID (ang. Object ID), które są unikatowe w całym systemie i mogą służyć jako wskaźniki na obiekty, podobnie do mechanizmu kluczy głównych i obcych. W takim podejściu konieczne jest zapewnienie szybkiego odszukiwania powiązanych obiektów, na przykład wprowadzając mechanizmy indeksów, podobnie jak w~bazach relacyjnych, co może być trudniejsze gdy operuje się na obiektach różnej postaci, nieprzechowywanych jako tabele. Podobnie trudna jest wizualizacja powiązań pomiędzy obiektami - unikalne identyfikatory są mniej czytelne niż klucze wskazujące na konkretną tabelę.
 
@@ -367,7 +367,7 @@ Mimo dużego zainteresowania tematem, do dziś nie udało się stworzyć powszec
 \begin{itemize}
     \item Niestandardowy model danych - w relacyjnych bazach model danych jest stały i reprezentowany w postaci tabel. Obiektowe bazy zezwalają na większą swobodę modelowania danych w postaci dowolonych typów, co utrudnia optymalizację zapytań i rozwój wydajnego sposobu przechowywania danych.
     \item Brak standardowego języka zapytań - w obiektowych bazach danych brakuje odpowiednika języka SQL. Istnieje ustandaryzowany język OQL (ang. \textit{Object Query Language}), jednak nie jest on powszechnie stosowany.
-    \item Brak matematycznych podstaw - obiektowe bazy nie mogą korzystać z szeregu korzyści, które przynosi podstawa teoretyczna w postaci algebry relacji.
+    \item Brak matematycznych podstaw - obiektowe bazy nie mogą korzystać z szeregu korzyści, które przynosi podstawa teoretyczna w postaci algebry relacji \cite{bib:comparison-analysis-of-object-and-or-databases}.
     \item Ograniczenia zapytań - obiektowe bazy zapewniają mniejszą swobodę w tworzeniu złożonych zapytań, których budowa silnie zależy od projektu bazy. Relacyjne bazy pozwalają na swobodne łączenie tabel i zagnieżdżanie zapytań, co jest znacznie ograniczone w bazach obiektowych \cite{bib:evolution-odbs}.
 \end{itemize}
 
@@ -377,7 +377,7 @@ Dziś obiektowe bazy danych pozostają złożonym, lecz niszowym działem techno
 
 \section{Obiektowo-relacyjne bazy danych}
 
-Mimo braku powszechnego sukcesu obiektowych baz danych, idea wprowadzenia mechanizmów obiektowych do warstwy danych wciąż cieszyła się dużą popularnością. Wiele aplikacji z sukcesem wykorzystywało relacyjne bazy danych ale z biegiem czasu pojawiało się w nich coraz więcej potrzeb realizowanych przez podejście obiektowe. Efektem tego było wprowadzenie ograniczonej ilości cech obiektowych do standardu SQL i istniejących rozwiązań relacyjnych.
+Mimo braku powszechnego sukcesu obiektowych baz danych, idea wprowadzenia mechanizmów obiektowych do warstwy danych wciąż cieszyła się dużą popularnością. Wiele aplikacji z sukcesem wykorzystywało relacyjne bazy danych ale z~biegiem czasu pojawiało się w nich coraz więcej potrzeb realizowanych przez podejście obiektowe. Szczególnie wpływowa okazała popularyzacja nowych rodzajów danych obsługiwanych przez aplikacje - powszechne stały się złożone struktury, dane multimedialne oraz informacje przestrzenne i geograficzne \cite{bib:integrating-xml-technology-with-or-databases}. Wynikiem tych zjawisk było wprowadzenie ograniczonej ilości cech obiektowych do standardu SQL i istniejących rozwiązań relacyjnych.
 
 W standardzie SQL mechanizmy obiektowe wprowadzono już w wersji SQL:1999 i stale aktualizowano w późniejszych wydaniach. Duża część rozszerzeń obiektowych została dołączona do najbardziej centralnej drugiej części standardu zwanej \textit{SQL/Foundation}, a cała część dziesiąta \textit{SQL/OLB Object Language Bindings} poświęcona jest osadzaniu SQL w obiektowym języku Java. Niemal wszystkie opisane w standardzie mechanizmy obiektowe określane są jako opcjonalne, by zapewnić systemom możliwość realizacji tylko podstaw relacyjnych.
 
@@ -393,13 +393,13 @@ Systemy obiektowo-relacyjne posiadają bardzo zróżnicowany zakres cech obiekto
     \item Integracja z językami obiektowymi - niektóre systemy pozwalają na bezpośrednie mapowanie typów, metod lub tabel na struktury w pamięci programu, ułatwiając komunikację aplikacji z bazą. Często spotykane są też generatory modeli, mapujące pomiędzy strukturą w bazie a kodem aplikacji.
 \end{itemize}
 
-Najbardziej podstawowym zadaniem ORSZBD jest zmniejszenie różnicy między modelem obiektowym spotykanym w aplikacjach a modelem relacyjnym. W~tym celu częściej niż bazy obiektowo-relacyjne stosuje się narzędzia mapowania obiektowo-relacyjnego (ang. ORM - \textit{Object-Relational Mapping}). Zapewniają automatycznie generowaną warstwę mapowania pomiędzy klasami używanymi w~aplikacji a strukturami relacyjnymi. Najczęściej stosowane narzędzia tego typu to Hibernate popularny w Javie i Entity Framework stosowany w języku C\# i środowiskach .NET. Mechanizmy ORM są powszechnie znane i stosowane w środowiskach programistycznych i znacznie ułatwiają pracę z relacyjnymi bazami danych.
+Najbardziej podstawowym zadaniem ORSZBD jest zmniejszenie różnicy pomiędzy modelem obiektowym spotykanym w aplikacjach a modelem relacyjnym. W~tym celu częściej niż bazy obiektowo-relacyjne stosuje się narzędzia mapowania obiektowo-relacyjnego (ang. ORM - \textit{Object-Relational Mapping}). Zapewniają automatycznie generowaną warstwę mapowania pomiędzy klasami używanymi w~aplikacji a strukturami relacyjnymi. Najczęściej stosowane narzędzia tego typu to Hibernate popularny w Javie i Entity Framework stosowany w języku C\# i środowiskach .NET. Mechanizmy ORM są powszechnie znane i stosowane w środowiskach programistycznych i znacznie ułatwiają pracę z relacyjnymi bazami danych.
 
 Dla baz obiektowo-relacyjnych nie ma dostępnych dobrze rozwiniętych odpowiedników ORM, które realizowałyby mapowanie pomiędzy klasami w językach programowania a strukturami obiektowymi tworzonymi w bazie danych. Cechy obiektowe występujące wśród dostępnych na rynku baz są zbyt zróżnicowane, by powstało uniwersalne narzędzie do automatycznego tworzenia schematu bazy - na ten moment takie rozwiązania pozostają w sferze badań \cite{bib:o-odm-framework}.
 
 Poprawne projektowanie struktury bazy relacyjnej jest bardzo istotne by zapewnić wydajność działania systemu. Jako wsparcie procesu analizy i projektowania stosuje się wiele narzędzi CASE (ang. \textit{Computer-Aided Software Engineering}), które umożliwiają wizualizację tworzonych modeli i strukur, generację diagramów, czy szybką i wygodną refaktoryzację. Podobne wsparcie nie jest dostępne dla większości mechanizmów obiektowych dostępnych w ORSZBD. Brakuje standardowej metodologii projektowania, która zapewniałaby szybką pracę i zadowalający efekt końcowy \cite{bib:fundamentals-for-automation-of-ordb-design}.
 
-Mimo stosunkowych trudności w ich wprowadzeniu, zastosowanie rozwiązań obiektowych może rozwiązać problemy spotykane w czysto relacyjnych systemach. ORSZBD mogą być szczególnie przydatne dla systemów obsługujących bardzo zróżnicowane dane o niestandardowych strukturach, na przykład w domenie architektury lub projektowania przestrzennego \cite{bib:OR-IFC-storage-model-based-on-oracle}. Wykorzystanie rozszerzeń obiektowych może pomóc także w procesie edukacji, gdzie rozwiązania obiektowe mogą stanowić intuicyjny wstęp do zapoznania się z działaniem baz danych \cite{bib:solving-relational-DB-problems-with-ORDBMS}.  
+Mimo stosunkowych trudności w ich wprowadzeniu, zastosowanie rozwiązań obiektowych może rozwiązać problemy spotykane w czysto relacyjnych systemach. ORSZBD mogą być szczególnie przydatne dla systemów obsługujących bardzo zróżnicowane dane o niestandardowych strukturach, na przykład w domenie architektury lub projektowania przestrzennego \cite{bib:OR-IFC-storage-model-based-on-oracle}. Dobre efekty przynoszą także w~systemach decyzyjnych, które oprócz standardowych typów danych obsługują dane multimedialne i tekstowe \cite{bib:integrating-xml-technology-with-or-databases}. Wykorzystanie rozszerzeń obiektowych może pomóc także w procesie edukacji, gdzie rozwiązania obiektowe mogą stanowić intuicyjny wstęp do zapoznania się z działaniem baz danych \cite{bib:solving-relational-DB-problems-with-ORDBMS}.  
 
 \chapter{Omówienie wybranych baz danych}
 
@@ -1968,7 +1968,7 @@ AND Product.product_id = Purchase.product_id;
 \end{lstlisting}
 \end{minipage}
 
-Czasy wykonania zapytań we wszystkich systemach przedstawia tabela \ref{table:zapytanie-3-results}. Wyniki w Postgres dla obu struktur są niemal identyczne, ponieważ w tym systemie fragment bazy istotny dla realizowanego zagadnienia jest taki sam w obu podejściach. Wykorzystanie funkcji zamiast bezpośredniego łączenia pól w zapytaniu nie ma znaczącego wpływu na czas realizacji zapytania. Dla struktury obiektowo-relacyjnej Db2 uzyskało bardzo podobny wynik co Postgres, a Oracle uzyskało czasy około 55\% krótsze. Różnica w wynikach jest zaskakująca, ponieważ treść zapytania dla tej struktury jest bardzo podobna w Db2 i Oracle. Najlepsze wyniki uzyskano w strukturze relacyjnej w Db2 i Oracle - w obu systemach średni czas wykonania zapytania wyniósł około 17 ms.
+Czasy wykonania zapytań we wszystkich systemach przedstawia tabela \ref{table:zapytanie-3-results}. Wyniki w Postgres dla obu struktur są niemal identyczne, ponieważ w tym systemie fragment bazy istotny dla realizowanego zagadnienia jest taki sam w obu podejściach. Wykorzystanie funkcji zamiast bezpośredniego łączenia pól w zapytaniu nie ma znaczącego wpływu na czas realizacji zapytania. Dla struktury obiektowo-relacyjnej Db2 uzyskało bardzo podobny wynik co Postgres, a Oracle uzyskało czasy około 55\% krótsze. Różnica w wynikach jest zaskakująca, ponieważ treść zapytania dla tej struktury jest bardzo podobna w Db2 i Oracle. Najlepsze wyniki uzyskano w strukturze relacyjnej w Db2 i Oracle - w obu systemach średni czas wykonania zapytania wyniósł około 17 ms. W przypadku Oracle można zaobserwować wysokie odchylenie standardowe i dużą różnicę pomiędzy minimalnym i~maksymalnym czasem. Najdłuższy czas 56 ms uzyskano przy pierwszym wykonaniu zapytania; kolejne czasy wykonania były dużo krótsze, ponieważ system skutecznie wykorzystał mechanizm pamięci podręcznej (ang. \textit{cache}) w celu szybszej realizacji zapytania.
 
 \begin{table}[h!]
 \centering
@@ -2019,7 +2019,7 @@ SELECT MAX(cardinality(reviews))
 FROM Product;
 \end{lstlisting}
 
-Czasy wykonania zapytań we wszystkich systemach przedstawia tabela \ref{table:zapytanie-4-results}. Dla systemó Oracle i Postgres czas realizacji zapytania dla struktury relacyjnej jest dużo krótszy niż dla struktury obiektowo-relacyjnej. Sugeruje to, że wbudowana funkcja \lstinline{cardinality} jest mało wydajna i dużo szybsze jest obliczanie liczby wierszy zwykłej tabeli relacyjnej. Czas wykonania zapytania w Db2 jest bardzo podobny dla obu struktur, ponieważ obie bardzo podobnie realizują przechowywanie recenzji.
+Czasy wykonania zapytań we wszystkich systemach przedstawia tabela \ref{table:zapytanie-4-results}. Dla systemów Oracle i Postgres czas realizacji zapytania dla struktury relacyjnej jest dużo krótszy niż dla struktury obiektowo-relacyjnej. Sugeruje to, że wbudowana funkcja \lstinline{cardinality} jest mało wydajna i dużo szybsze jest obliczanie liczby wierszy zwykłej tabeli relacyjnej. Czas wykonania zapytania w Db2 jest bardzo podobny dla obu struktur, ponieważ obie bardzo podobnie realizują przechowywanie recenzji. Podobnie jak w poprzednim zagadnieniu, w wynikach systemu Oracle dla struktury relacyjnej widać dużą różnicę pomiędzy maksymalnym i minimalnym czasem realizacji, związaną z wykorzystaniem pamięci podręcznej w kolejnych wykonaniach zapytania.
 
 \begin{table}[h!]
 \centering
@@ -2153,7 +2153,11 @@ FROM (SELECT DEREF(pp.product) as p,
 WHERE p IS OF (Mouse_Type);
 \end{lstlisting}
 
+\vspace{0.15cm}
+
 Zapytanie dla Db2 pokazuje fragment kodu \ref{listing:zapytanie-6-db2}. W tym rozwiązaniu także użyto rzutowania produktu w celu uzyskania atrybutów konkretnego podtypu. Funkcja rzutująca \lstinline{TREAT} operuje na wartości obiektu uzyskanej za pomocą funkcji \lstinline{DEREF}. Filtrowanie produktów według typu także wymaga dereferencji oraz użycia frazy \lstinline{IS OF}. W przeciwieństwie do Oracle, wszystkie działania wykonać można w~jednym zapytaniu, bez tworzenia podzapytań. Ciekawą cechą widoczną w zapytaniu jest wykorzystanie różnych operatorów w celu dostępu do atrybutów. Dla typu referencji wykorzystuje się operator ``->'', a dla całych obiektów operator ``..''.
+
+\vspace{0.2cm}
 
 \begin{lstlisting}[style=SQL, caption={Zapytanie szóste w Db2.}, label={listing:zapytanie-6-db2}, captionpos=b]
 SELECT p.product, p.product->brand, p.product->name, 
@@ -2164,7 +2168,11 @@ WHERE  p.customer = Customer_Type(2000)
 AND DEREF(p.product) IS OF (Mouse_Type);
 \end{lstlisting}
 
+\vspace{0.15cm}
+
 Rozwiązanie dla bazy Postgres przedstawia fragment \ref{listing:zapytanie-6-postgres}. Ta wersja zapytania zbliżona jest do rozwiązania relacyjnego, ale dzięki dziedziczeniu tabel możliwe jest uzyskanie wszystkich potrzebnych atrybutów z tabeli myszy, bez konieczności złączenia z tabelą produktów. Dzięki temu treść zapytania w strukturze obiektowo-relacyjnej w Postgres jest prostsza niż pozostałe przedstawione wersje.
+
+\vspace{0.2cm}
 
 \begin{lstlisting}[style=SQL, caption={Zapytanie szóste w Postgres}, label={listing:zapytanie-6-postgres}, captionpos=b]
 SELECT m.product_id, m.brand, m.name, m.dpi, m.sensor
