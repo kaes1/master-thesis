@@ -1,0 +1,119 @@
+Wymagania:
+- Docker
+
+Dodatkowo sugerowane narzędzia do obsługi każdej bazy danych:
+- Oracle SQL Developer (https://www.oracle.com/database/technologies/appdev/sqldeveloper-landing.html)
+- IBM Data Studio (https://www.ibm.com/products/ibm-data-studio)
+- pgAdmin 4 (uwzględniony w pliku docker-compose dla bazy Postgres)
+
+
+I. Uruchomienie systemów
+
+Uruchomienie każdej bazy odbywa się za pomocą odpowiedniego pliku docker-compose w folderze docker.
+
+docker-compose -f docker-compose-oracle.yml up
+docker-compose -f docker-compose-ibm.yml up
+docker-compose -f docker-compose-postgres.yml up
+
+Sugeruje się, by uruchamiać każdy system pojedynczo, tak aby ograniczyć obciążenie sprzętowe podczas testów.
+
+
+II. Skrypty SQL
+
+Skrypty SQL tworzące struktury znajdują się w folderze Scripts/Structure. Są to:
+- Oracle-Structure.sql
+- Db2-Structure.sql
+- Postgres-Structure.sql
+- Relational-Structure.sql
+
+Trzy pierwsze skrypty tworzą struktury obiektowo-relacyjne w każdym systemie, a czwarty skrypt tworzy uniwersalną strukturę relacyjną poprawną w każdym systemie.
+
+Skrypty SQL wypełniające struktury danymi znajdują się w folderze Scripts/Data. Są to:
+- Oracle-Data.sql
+- Db2-Data.sql
+- Postgres-Data.sql
+- Relational-Data.sql
+
+Trzy pierwsze skrypty wypełniają struktury obiektowo-relacyjne w każdym systemie, a czwarty skrypt wypełnia strukturę relacyjną w każdym systemie.
+
+
+III. Praca z bazami danych
+
+1. Oracle Database
+
+Do połączenia z Oracle Database można wykorzystać Oracle SQL Developer. 
+
+Właściwości dla połączenia jako SYS:
+Connection Type:  Basic
+Hostname: 	 	localhost
+Port: 		 	51521
+SID:		 	XE
+Username:	 	sys
+Password:		mysecurepassword
+
+Właściwości dla połączenia jako pdbadmin:
+Connection Type:  Basic
+Hostname: 	 	localhost
+Port: 		 	51521
+Service name:	XEPDB1
+Username:	 	pdbadmin
+Password:	 	mysecurepassword
+
+Po uruchomieniu systemu za pomocą docker-compose należy podłączyć się jako SYS i nadać odpowiednie uprawnienia dla użytkownika pdbadmin:
+alter session set container=XEPDB1;
+grant all privileges to pdbadmin;
+
+Następnie można zalogować się jako pdbadmin i wykonywać standardowe polecenia SQL.
+
+Wykonanie skryptów w Oracle SQL Developer jest możliwe przez podanie w oknie pracy SQL ścieżki do pliku poprzedzonej znakiem małpy. Przykład:
+@H:\data-generator\result\sql-oracle.sql;
+
+Następnie skrypt można wykonać tak samo jak polecenie SQL, na przykład przez klawisz F5. W ten sposób można najpierw utworzyć strukturę bazy, a następnie wypełnić ją danymi.
+
+2. IBM Db2
+
+Do połączenie z IBM Db2 można wykorzystać IBM Data Studio. Właściwości połączenia:
+Sterownik:	IBM Data Server Driver for JDBC 4.0
+Database:	testdb
+Host:		localhost
+Port:		50000
+Username:	db2inst1
+Password:	db2
+
+Wykonanie skryptów wymaga skopiowania plików do uruchomionego kontenera Docker'a za pomocą komendy docker cp. Przykład:
+docker cp H:\data-generator\result\sql-db2.sql docker_db2_1:/opt/ibm/db2/V11.5/bin/sql-db2.sql
+
+Następnie można podłączyć się do kontenera, połączyc z bazą i wykonać skrypt:
+docker exec -it docker_db2_1 /bin/sh
+cd /opt/ibm/db2/V11.5/bin/
+./db2 connect to testdb user db2inst1 using db2
+./db2 -tf sql-db2.sql
+
+Nazwa "docker_db2_1" to nazwa kontenera z bazą, można ją odczytać za pomocą komendy docker ps.
+
+3. PostgreSQL
+
+Do połączenia z Postgres można wykorzystać pgAdmin 4. Narzędzie dostępne jest w przeglądarce pod adresem localhost:5050. Właściwości połączenia:
+Name: 				postgres 
+Host name/address: 	postgres	
+Username: 			postgres
+Password: 			postgres
+
+Po połączeniu w polu pracy SQL należy wykonać komendę tworzącą bazę danych:
+CREATE DATABASE postgres_testing;
+
+Wykonanie skryptów wymaga skopiowania plików do uruchomionego kontenera Docker'a za pomocą komendy docker cp. Przykład: 
+docker cp H:\data-generator\result\sql-postgres.sql docker_postgres_1:/sql-postgres.sql
+
+Nazwa "docker_postgres_1" to nazwa kontenera z bazą, można ją odczytać za pomocą komendy docker ps.
+
+Następnie można podłączyć się do kontenera i wykonać skrypty za pomocą psql:
+docker exec -it docker_postgres_1 /bin/sh
+docker exec -it docker_postgres_1 psql -d postgres_testing -U postgres -q -f /sql-postgres.sql
+
+
+
+IV. Czyszczenie środowiska
+
+By przywrócić środowisko pracy do stanu początkowego należy wyłączyć kontenery Dockera (komenda docker down) dla każdego systemu i usunąć woluminy przechowujące dane.
+Dla Db2 i Oracle wystarczające jest usunięcie folderów "oracle_volume" i "db2_database_data_volume". Dla Postgres należy usunąć wolumin komendą docker volume rm, podając nazwę kontenera. Nazwy kontenerów uzyskać można komendą docker volume ls.
